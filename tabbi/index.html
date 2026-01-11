@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Tabbi</title>
+		<link rel="stylesheet" href="core/styles.css" />
+	</head>
+	<body>
+		<h1>Tabbi</h1>
+		<!-- Home overlay -->
+		<div id="homeOverlay">
+			<div class="homeCard">
+				<h1 class="homeTitle">Tabbi</h1>
+				<p class="homeSubtitle">A pet care game</p>
+				<div class="homeActions">
+					<button id="homeNewGame">New Game</button>
+					<button id="homeContinue">Continue</button>
+					<button id="homeSettings">Settings</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- New Game Overlay -->
+		<div id="newGameOverlay" class="hidden" style="display: none">
+			<div class="newGameCard">
+				<h2>Choose Your Pet</h2>
+				<div class="petSelection">
+					<button id="prevPet" class="navBtn">&lt;</button>
+					<div class="petPreview">
+						<canvas id="previewCanvas" width="120" height="120"></canvas>
+					</div>
+					<button id="nextPet" class="navBtn">&gt;</button>
+				</div>
+				<div class="nameInputContainer">
+					<input type="text" id="newPetName" placeholder="Pet Name" />
+				</div>
+				<div class="newGameActions">
+					<button id="startGameBtn">Start Game</button>
+					<button id="cancelNewGameBtn">Back</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- New Game Confirmation Overlay -->
+		<div id="newGameConfirmOverlay" class="hidden" style="display: none">
+			<div class="settingsCard" style="max-width: 400px; text-align: center">
+				<h2>New Game?</h2>
+				<p style="margin: 20px 0; color: #ddd">
+					Are you sure you want to start a new game? Any current progress will be lost.
+				</p>
+				<div class="settingsActions" style="justify-content: center; gap: 15px">
+					<button id="confirmNewGameYes">Yes, New Game</button>
+					<button id="confirmNewGameNo">Cancel</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Settings overlay -->
+		<div id="settingsOverlay" class="hidden" style="display: none">
+			<div class="settingsCard">
+				<h2>Settings</h2>
+				<div class="settingsContent">
+					<!-- Add settings controls here -->
+					<p>
+						<label> Enable autosave <input type="checkbox" id="autosaveEnabled" /> </label>
+					</p>
+					<p>
+						<label> Show autosave toasts <input type="checkbox" id="autosaveToasts" /> </label>
+					</p>
+					<p>
+						<label>
+							Autosave interval (seconds):
+							<input type="number" id="autosaveIntervalSeconds" min="1" step="1" />
+						</label>
+					</p>
+				</div>
+				<div class="settingsActions">
+					<button id="settingsReset">Reset Defaults</button>
+					<button id="settingsBack">Back</button>
+					<button id="deleteSaveBtn">Delete Save</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Delete Save Confirmation Overlay -->
+		<div id="deleteSaveConfirmOverlay" class="hidden" style="display: none">
+			<div class="settingsCard" style="max-width: 400px; text-align: center">
+				<h2>Delete Save?</h2>
+				<p style="margin: 20px 0; color: #ddd">
+					Are you sure you want to delete your save file? This cannot be undone.
+				</p>
+				<div class="settingsActions" style="justify-content: center; gap: 15px">
+					<button id="confirmDeleteYes" style="background-color: #d9534f; color: white">
+						Yes, Delete
+					</button>
+					<button id="confirmDeleteNo">Cancel</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="minigameOverlay" class="hidden" style="display: none">
+			<div class="minigameCard">
+				<h2 id="minigameTitle">Click Challenge</h2>
+				<p id="minigameInfo" style="margin: 12px 0; color: #ddd">
+					Click the button as much as you can in 5 seconds. You earn $1 for every 2 clicks.
+				</p>
+				<div id="minigameHud" class="minigameHud">
+					<div>
+						<span id="minigameHudLeftLabel">Time</span>:
+						<span id="minigameHudLeftValue">15</span>
+					</div>
+					<div>
+						<span id="minigameHudRightLabel">Clicks</span>:
+						<span id="minigameHudRightValue">0</span>
+					</div>
+				</div>
+				<div id="minigameArena" class="minigameArena">
+					<canvas id="minigameCanvas" width="380" height="220"></canvas>
+					<button id="minigameTarget" class="minigameTarget">Tap!</button>
+				</div>
+				<div class="minigameActions">
+					<button id="startMinigame">Start</button>
+					<button id="closeMinigame">Close</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="gameContainer">
+			<div id="leftColumn">
+				<button id="btnHome">Menu</button>
+				<!-- Left Panel: Stats -->
+				<div id="leftPanel">
+					<h2>Pet Stats</h2>
+					<hr />
+					<div id="stats"></div>
+				</div>
+			</div>
+
+			<!-- Canvas -->
+			<div id="canvasContainer">
+				<canvas id="gameCanvas" width="720" height="540"></canvas>
+				<!-- Pet name and type displayed in canvas via JS -->
+			</div>
+		</div>
+
+		<!-- Bottom Panel: Always-open panels -->
+		<div id="bottomPanel">
+			<div class="bottomPanelCard">
+				<div class="bottomPanelTitle">Care</div>
+				<div class="bottomPanelContent">
+					<button id="btnFeed">Feed</button>
+					<button id="btnPlay">Play</button>
+					<button id="btnRest">Rest</button>
+					<button id="btnClean">Clean</button>
+				</div>
+			</div>
+
+			<div class="bottomPanelCard">
+				<div class="bottomPanelTitle">Shop</div>
+				<div class="bottomPanelContent">
+					<button id="buyFood">Buy Food ($5)</button>
+					<button id="buyToy">Buy Toy ($10)</button>
+					<button id="buyBed">Buy Bed ($15)</button>
+					<button id="buySoap">Buy Soap ($8)</button>
+				</div>
+			</div>
+
+			<div class="bottomPanelCard">
+				<div class="bottomPanelTitle">Inventory</div>
+				<div class="bottomPanelContent" id="inventoryList"></div>
+			</div>
+
+			<div class="bottomPanelCard">
+				<div class="bottomPanelTitle">Minigames</div>
+				<div class="bottomPanelContent">
+					<button id="btnClickMinigame">Click Challenge</button>
+					<button id="btnTargetMinigame">Target Practice</button>
+					<button id="btnCatchMinigame">Coin Catch</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Toast Notification -->
+		<div id="toastContainer"></div>
+
+		<!-- JS files -->
+		<script src="core/variables.js"></script>
+		<script src="core/petData.js"></script>
+		<script src="core/actions.js"></script>
+		<script src="core/sprite.js"></script>
+		<script src="core/ui.js"></script>
+		<script src="core/saveLoad.js"></script>
+		<script src="core/settings.js"></script>
+		<script src="core/main.js"></script>
+		<script src="core/overlays.js"></script>
+	</body>
+</html>
