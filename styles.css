@@ -51,6 +51,23 @@ header {
 	align-items: center;
 }
 
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.logo-img {
+	height: 50px;
+	width: auto;
+	object-fit: contain;
+}
+
+.logo-text {
+	display: flex;
+	flex-direction: column;
+}
+
 .logo h1 {
 	font-size: 1.5rem;
 	color: var(--primary-color);
@@ -368,6 +385,10 @@ footer p {
 		gap: 1rem;
 	}
 
+	.logo-img {
+		height: 40px;
+	}
+
 	.nav-menu {
 		gap: 1rem;
 	}
@@ -398,6 +419,18 @@ footer p {
 }
 
 @media (max-width: 480px) {
+	.logo-img {
+		height: 35px;
+	}
+
+	.logo h1 {
+		font-size: 1.25rem;
+	}
+
+	.logo .motto {
+		font-size: 0.8rem;
+	}
+
 	.hero {
 		padding: 3rem 0;
 	}
